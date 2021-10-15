@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
+	tgbot.StartBot()
 	tgbot.Router()
 }

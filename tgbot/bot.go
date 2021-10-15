@@ -1,6 +1,8 @@
 package tgbot
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
@@ -25,8 +27,8 @@ func StartBot() error {
 	return nil
 }
 
-func SendMessage(msg string) /* (*http.Response, error)*/ {
-	bot.Send(tgbotapi.NewMessageToChannel(chatId, msg))
+func SendMessage( /*msg string*/ ) /* (*http.Response, error)*/ {
+	bot.Send(tgbotapi.NewMessageToChannel(chatId, "hello!"))
 }
 
 //Gin
@@ -36,6 +38,9 @@ func Router() {
 		c.JSON(200, gin.H{
 			"message": "sent",
 		})
+		var td time.Duration = time.Second * 5
+
+		time.AfterFunc(td, SendMessage)
 	})
 	router.Run()
 }
