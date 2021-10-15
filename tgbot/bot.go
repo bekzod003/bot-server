@@ -27,8 +27,15 @@ func StartBot() error {
 	return nil
 }
 
+var msgdb MessageDB
+
+func SetMessageDB(msg *MessageDB) {
+	msgdb = *msg
+}
+
 func SendMessage( /*msg string*/ ) /* (*http.Response, error)*/ {
-	bot.Send(tgbotapi.NewMessageToChannel(chatId, "hello!"))
+	getMsg := GetMessageByPriority(&msgdb)
+	bot.Send(tgbotapi.NewMessageToChannel(chatId, getMsg))
 }
 
 //Gin
@@ -43,4 +50,29 @@ func Router() {
 		time.AfterFunc(td, SendMessage)
 	})
 	router.Run()
+}
+
+func GetMessageByPriority(msg *MessageDB) string {
+	for _, val := range msg.MDB {
+		if val.Priority == "high" {
+			tempTxt := val.Text
+			msg.Delete(val)
+			return tempTxt
+		}
+	}
+	for _, val := range msg.MDB {
+		if val.Priority == "medium" {
+			tempTxt := val.Text
+			msg.Delete(val)
+			return tempTxt
+		}
+	}
+	for _, val := range msg.MDB {
+		if val.Priority == "low" {
+			tempTxt := val.Text
+			msg.Delete(val)
+			return tempTxt
+		}
+	}
+	return ""
 }

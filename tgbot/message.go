@@ -7,6 +7,10 @@ type Message struct {
 	Text     string
 }
 
+func NewMessage(pr string, txt string) *Message {
+	return &Message{pr, txt}
+}
+
 type MessageDB struct {
 	MDB []Message
 }
