@@ -36,13 +36,6 @@ func SetMessageDB(msg *MessageDB) {
 	msgdb = *msg
 }
 
-// @Summary Send Message
-// @Description Send message to telegram group
-// @ID send-message
-// @Accept json
-// @Produce json
-// @Router /send [get]
-
 func SendMessage( /*msg string*/ ) /* (*http.Response, error)*/ {
 	getMsg := GetMessageByPriority(&msgdb)
 	bot.Send(tgbotapi.NewMessageToChannel(chatId, getMsg))
