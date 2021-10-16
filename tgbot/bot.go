@@ -48,17 +48,25 @@ func SendMessage( /*msg string*/ ) /* (*http.Response, error)*/ {
 	bot.Send(tgbotapi.NewMessageToChannel(chatId, getMsg))
 }
 
+// @Summary Send Message
+// @Description Send message to telegram group
+// @ID send-message
+// @Accept json
+// @Produce json
+// @Router /send [get]
+func SendToChannel(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "sent",
+	})
+	var td time.Duration = time.Second * 5
+
+	time.AfterFunc(td, SendMessage)
+}
+
 //Gin
 func Router() {
 	router := gin.Default()
-	router.GET("/send", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "sent",
-		})
-		var td time.Duration = time.Second * 5
-
-		time.AfterFunc(td, SendMessage)
-	})
+	router.GET("/send", SendToChannel)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
