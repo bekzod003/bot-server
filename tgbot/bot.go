@@ -7,7 +7,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-// @server_telega_bot
+// username = server_telega_bot
 const (
 	TOKEN  = "2043277522:AAH01ln0ntnz3aat6z0QgHS5F0FHC0Ypf5Y"
 	chatId = "-1001783728948"
@@ -32,6 +32,13 @@ var msgdb MessageDB
 func SetMessageDB(msg *MessageDB) {
 	msgdb = *msg
 }
+
+// @Summary Send Message
+// @Description Send message to telegram group
+// @ID send-message
+// @Accept json
+// @Produce json
+// @Router /send [get]
 
 func SendMessage( /*msg string*/ ) /* (*http.Response, error)*/ {
 	getMsg := GetMessageByPriority(&msgdb)
